@@ -1,0 +1,357 @@
+#include <iostream>
+#include <string>
+#include <conio.h>
+#include <fstream>
+#include <time.h>
+#include <stdlib.h>
+
+using namespace std;
+void menu_delivery();
+void back_to_menu();
+void MENU();
+void save();
+float order();
+float reszta;
+int tableno;
+int choice1;
+float h = 0, m = 0;
+string ulica;
+string mieszkanie;
+string dom;
+double numer;
+int main()
+{
+	int choice;
+	system("chcp 1250>nul");
+	do
+	{
+		cout << " ****************		Menu		******************\n";
+		cout << "			1) Wybierz miejsce spozywania posiłku\n";
+		cout << "			2) Karta dań i dodatków \n";
+		cout << "			3) Wyjdź\n\n\n";
+		cout << "Wybierz opcję i wciśnij enter : \n";
+		cout << "-------------------------------------------------------------------------------\n\n";
+
+
+
+		cin >> choice;
+		system("cls");
+		switch (choice)
+		{
+		case 1:
+			system("cls");
+			menu_delivery();
+			break;
+		case 2:
+			system("cls");
+			MENU();
+			break;
+		case 3:
+			return 0;
+		}
+	} while (choice > 3);
+
+
+	return 0;
+}
+
+
+void menu_delivery()
+{
+	system("chcp 1250>nul");
+
+
+
+	cout << "-------------------------------------------------------------------------------\n\n";
+	cout << "\n\n *********		Miejsce spożywania posiłku		***************					\n\n\n";
+	cout << "1) Na miejscu\n";
+	cout << "2) Dostarczyć pod adres zamieszkania\n";
+	cout << "3) wróć do menu głównego\n";
+	cout << "Wybierz opcję i wciśnij enter : \n";
+	cout << "-------------------------------------------------------------------------------\n\n";
+
+	do
+	{
+		cin >> choice1;
+		system("cls");
+		switch (choice1)
+		{
+		case 1:
+			system("cls");
+			cout << "Podaj numer stolika: " << endl;
+			cin >> tableno;
+			MENU();
+
+
+		case 2:
+			cout << "-----\tProszę składać zamówienia do godziny 22:00\t-----" << endl;
+			cout << "*****\tPodaj ulicę: \t*****" << endl;
+			getline(cin, ulica);
+			cin >> ulica;
+			cout << "*****\tPodaj numer domu: \t*****" << endl;
+			getline(cin, dom);
+			cin >> dom;
+			cout << "*****\tPodaj numer mieszkania: \t*****" << endl;
+			getline(cin, mieszkanie);
+			cin >> mieszkanie;
+			cout << "\t*****Podaj swój numer telefonu\t*****" << endl;
+			cin >> numer;
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			cout << "\t*****Podaj godzinę dostawy\t*****" << endl;
+			cout << "*****Podaj godzinę: *****" << endl;
+			cin >> h;
+			cout << " *****Podaj minuty: *****" << endl;
+			cin >> m;
+			if (h >= 22 or m >= 60)
+				do
+				{
+					cout << "*****Nie poprawny czas dostawy spróbuj jeszcze raz*****" << endl;
+					cout << "\t*****Podaj godzinę dostawy\t*****" << endl;
+					cout << "*****Podaj godzinę: *****" << endl;
+					cin >> h;
+					cout << " *****Podaj minuty: *****" << endl;
+					cin >> m;
+				} while (h <= 22 and m < 60);
+
+				system("cls");
+				cout << "*****\tGratulacje twoje zamówienie będzie dostarczone o: *****  " << h + 1 << "h:" << m << "min" << endl;
+				MENU();
+
+				break;
+		case 3:
+			main();
+			break;
+
+		}
+
+
+	} while (choice1 == char('q'));
+	main();
+
+}
+
+void back_to_menu()
+{
+	system("chcp 1250>nul");
+	int choice;
+
+	cout << "Co teraz chcesz zrobić ??\n";
+	cout << "9) wróć do menu głównego								0) Wyjdź z aplikacji\n\n";
+
+	do
+	{
+		cin >> choice;
+		switch (choice)
+		{
+		case 9:
+			cout << " <<<WRACASZ DO MENU GŁÓWNEGO>>>\n\n";
+			main();
+
+
+		case 2:
+
+			break;
+		case 3:
+
+
+			break;
+		}
+
+
+	} while (choice != 3);
+	main();
+
+}
+
+void MENU()
+{
+	system("chcp 1250>nul");
+
+	ifstream menu;
+	menu.open("C:/Users/olekk/Desktop/menu.txt", ios::in);
+	if (menu.good() == false)
+	{
+		cout << "Nie udało się otworzyć pliku." << endl;
+		system("cls");
+		exit(0);
+	}
+
+	cout << "*****\tWitaj w karcie dań\t*****" << endl;
+	cout << "*****\tNasze menu:\t*****" << endl;
+	string line;
+	int nr_line = 1;
+	while (getline(menu, line))
+	{
+		cout << line << endl;
+		nr_line++;
+
+	}menu.close();
+	order();
+}
+#include <iostream>
+#include <cstdlib>
+#include <iomanip>
+
+using namespace std;
+
+float order()
+{
+	system("chcp 1250>nul");
+
+	int wybor;
+
+
+	float tablica[6];
+	tablica[0] = 0;
+	tablica[1] = 12.50;
+	tablica[2] = 14;
+	tablica[3] = 9.99;
+	tablica[4] = 5;
+	tablica[5] = 4;
+
+
+
+	string tabnaz[6];
+	tabnaz[0] = "";
+	tabnaz[1] = "Pierogi";
+	tabnaz[2] = "Kiełbasa";
+	tabnaz[3] = "Schabowy";
+	tabnaz[4] = "Frytki";
+	tabnaz[5] = "Cola";
+
+
+
+	string tabdis[10];
+	int i = 0;
+
+	int produkt;
+	float sumka = 0;
+	float zaplata = 0;
+
+	//petla
+	while (true) {
+
+		cout << "=== MENU ===" << endl;
+		cout << "1. Dodaj produkt do zamówienia" << endl;
+		cout << "2. Pokaz zamówienie" << endl;
+		cout << "3. Zakoncz i zaplac" << endl << endl;
+		cout << "9. Powrót" << endl;
+
+		cout << "Wybierz co chcesz teraz zrobic: ";
+		cin >> wybor;
+		system("cls");
+
+		switch (wybor) {
+		case 1:
+			cout << "Jaki produkt chcialbys dodac do zamówienia? ";
+			{	system("chcp 1250>nul");
+			ifstream menu;
+			menu.open("C:/Users/olekk/Desktop/menu.txt", ios::in);
+			if (menu.good() == false)
+			{
+				cout << "Nie udało się otworzyć pliku." << endl;
+				system("cls");
+				exit(0);
+			}
+
+
+			cout << "*****\tNasze menu:\t*****" << endl;
+			string line;
+			int nr_line = 1;
+			while (getline(menu, line))
+			{
+				cout << line << endl;
+				nr_line++;
+
+			}menu.close(); }
+			cin >> produkt;
+			sumka = sumka + tablica[produkt];
+			tabdis[i] = tabnaz[produkt];
+			i++;
+			break;
+
+		case 2:
+			cout << endl << endl;
+			cout << "W twoim zamówieniu znajduja sie: ";
+
+			for (int k = 0; k < i; k++) {
+				cout << tabdis[k] << ", ";
+			}
+
+			cout << endl;
+			cout << "Wartosc towjego zamówienia to: ";
+			cout << sumka << "zl." << endl;
+
+			cout << endl << endl;
+			break;
+			system("cls");
+		case 3:
+			if (sumka == 0) {
+				exit(0);
+			}
+			else {
+				cout << "Prosimy zaplacic kwote " << sumka << "zl." << endl;
+				cout << "Podaj kwote ktora zaplacisz: ";
+				cin >> zaplata;
+
+				if (zaplata < sumka) {
+					cout << "Kwota ktora podales jest za mala. Zamowienie anulowane.";
+					exit(0);
+				}
+				else {
+					reszta = zaplata - sumka;
+					cout << "Twoja reszta wynosi: " << fixed << setprecision(2) << (zaplata - sumka) << "zl." << endl << endl << endl;
+
+					cout << "*****Podsumowanie zamówienia*****" << endl;
+					if (choice1 == 1) {
+						cout << "Nr stolika:" << tableno << endl;
+						cout << "Zamówienie będzie gotowe za  30 min" << endl;
+					}
+					else {
+						cout << "Numer telefonu: " << numer << endl;
+						cout << "Adres: " << ulica << " " << dom << "//" << mieszkanie << endl;
+						cout << "Planowany czas dostawy:  " << h + 1 << "h:" << m << "min" << endl << endl << endl;
+					}
+					cout << "Kwota zamówienia:" << sumka << "zł" << endl;
+					cout << "Reszta:" << reszta << "zł" << endl;
+
+					cout << "Dziekujemy za skorzystanie z naszej restauracji :-)" << endl;
+					// paragon
+
+					fstream plik;
+					plik.open("paragon.txt", ios::out);
+					plik << "*****Podsumowanie zamówienia*****" << endl;
+					if (choice1 == 1) {
+						plik << "Nr stolika:" << tableno << endl;
+						plik << "Zamówienie będzie gotowe za  30 min" << endl;
+					}
+					else {
+						plik << "Numer telefonu: " << numer << endl;
+						plik << "Adres: " << ulica << " " << dom << "/" << mieszkanie << endl;
+						plik << "Planowany czas dostawy:  " << h + 1 << "h:" << m << "min" << endl << endl << endl;
+					}
+					plik << "Kwota zamówienia:  " << sumka << "zł" << endl;
+					plik << "Reszta:  " << reszta << "zł" << endl;
+
+					plik << "Dziekujemy za skorzystanie ze sklepu konsolowego." << endl;
+
+
+					plik.close();
+					exit(0);
+				}
+			}
+			break;
+
+		default:
+			cout << endl << endl;
+			cout << "Wprowadzono zly numer!" << endl;
+			cout << endl << endl;
+			break;
+
+		case 9:
+			main();
+			break;
+		}
+
+	}
+}
